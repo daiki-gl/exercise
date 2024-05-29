@@ -1,0 +1,62 @@
+<!-- <html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Search Contract</title>
+  </head>
+  <body>
+    hello
+    <form th:action="@{/search}" th:object="${searchRequest}" method="post">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" th:field="*{name}" /><br />
+      <label for="dob">Date of Birth (yyyy/MM/dd):</label>
+      <input
+        type="text"
+        id="dob"
+        name="dateOfBirth"
+        th:field="*{dateOfBirth}"
+      /><br />
+      <button type="submit">Search</button>
+    </form>
+  </body>
+</html> -->
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Search Contract</title>
+  </head>
+  <body>
+    <form th:action="@{/search}" th:object="${searchRequest}" method="post">
+      <label for="name">名前:</label>
+      <input type="text" id="name" name="name" th:field="*{name}" /><br />
+
+      <label for="nameKana">名前(カナ):</label>
+      <input
+        type="text"
+        id="nameKana"
+        name="nameKana"
+        th:field="*{nameKana}"
+      /><br />
+
+      <label for="dob">誕生日:</label>
+      <input type="date" name="dateOfBirth" th:field="*{dateOfBirth}" /><br />
+
+      <label for="company">契約会社:</label>
+      <input
+        type="text"
+        id="company"
+        name="company"
+        th:field="*{company}"
+      /><br />
+
+      <label for="company">契約契約番号:</label>
+      <input
+        type="number"
+        id="contractNum"
+        name="contractNum"
+        th:field="*{contractNum}"
+      /><br />
+      <button type="submit">Search</button>
+    </form>
+  </body>
+</html>

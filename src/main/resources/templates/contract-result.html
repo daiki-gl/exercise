@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Search Result</title>
+  </head>
+  <body>
+    <h2
+      th:if="${contractType != null}"
+      th:text="'Contract Type: ' + ${contractType}"
+    ></h2>
+    <h2
+      th:if="${contractAmount != null}"
+      th:text="'Contract Amount: ' + ${contractAmount}"
+    ></h2>
+    <h2 th:if="${contractType == null}" th:text="'Contract not found'"></h2>
+    <a th:href="@{/AN1120}">Back to Search</a>
+  </body>
+</html>
