@@ -30,9 +30,16 @@ public class ContractController {
     public String searchContract(@ModelAttribute SearchRequest request, Model model) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date dateOfBirth = sdf.parse(request.getDateOfBirth());
-        ContractEntity contractResponse = contractService.getContractType(request.getName(), dateOfBirth);
-        model.addAttribute("contractType", contractResponse.getContractName());
-        model.addAttribute("contractAmount", contractResponse.getContractAmount());
+        ContractEntity contractResponse = contractService.getContractType(request.getName(), request.getNameKana(),
+                dateOfBirth, request.getCompany(), request.getContractNum()); // To contractserveci.java
+
+        if (contractResponse != null) {
+            model.addAttribute("contractType", contractResponse.getContractName());
+            model.addAttribute("contractAmount", contractResponse.getContractAmount());
+        } else {
+            model.addAttribute("contractType", "No Result");
+            model.addAttribute("contractAmount", "No Result");
+        }
         return "contract-result";
     }
 

@@ -13,8 +13,12 @@ public class ContractService {
     @Autowired
     private ContractRepository contractRepository;
 
-    public ContractEntity getContractType(String name, Date dateOfBirth) {
-        ContractEntity contract = contractRepository.findByNameAndDateOfBirth(name, dateOfBirth);
+    public ContractEntity getContractType(String name, String nameKana, Date dateOfBirth, String company,
+            Integer contractNum) {
+        // ContractEntity contract =
+        // contractRepository.findByNameAndDateOfBirthAndNameKanaAndCompanyAndContractNum(name,dateOfBirth,
+        // nameKana, company, contractNum);
+        ContractEntity contract = contractRepository.findContract(name, dateOfBirth, nameKana, company, contractNum);
         if (contract != null) {
             return new ContractEntity(contract.getContractName(), contract.getContractAmount());
         } else {
