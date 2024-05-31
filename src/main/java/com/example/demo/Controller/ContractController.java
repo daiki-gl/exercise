@@ -5,20 +5,26 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.demo.Constant.ErrorMsgConst;
 import com.example.demo.Entity.ContractEntity;
 import com.example.demo.Request.SearchRequest;
 import com.example.demo.Service.ContractService;
+import com.example.demo.util.AppUtil;
 
 @Controller
 public class ContractController {
     @Autowired
     private ContractService contractService;
+
+    @Autowired
+    private MessageSource messageSource;
 
     @RequestMapping("/AN1120")
     public String showForm(Model model) {
@@ -37,8 +43,8 @@ public class ContractController {
             model.addAttribute("contractType", contractResponse.getContractName());
             model.addAttribute("contractAmount", contractResponse.getContractAmount());
         } else {
-            model.addAttribute("contractType", "No Result");
-            model.addAttribute("contractAmount", "No Result");
+            var errorMsg = AppUtil.getMessage(messageSource, ErrorMsgConst.NO_DATA);
+            model.addAttribute("errorMsg", errorMsg);
         }
         return "contract-result";
     }

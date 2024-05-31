@@ -11,11 +11,6 @@ import com.example.demo.Entity.ContractEntity;
 
 @Repository
 public interface ContractRepository extends JpaRepository<ContractEntity, Long> {
-    // ContractEntity
-    // findByNameAndDateOfBirthAndNameKanaAndCompanyAndContractNum(String name, Date
-    // dateOfBirth,
-    // String nameKana, String company, Integer contractNum);
-
     @Query("SELECT c FROM ContractEntity c WHERE c.name = :name AND c.dateOfBirth = :dateOfBirth AND c.nameKana = :nameKana AND c.company = :company AND c.contractNum = :contractNum")
     ContractEntity findContract(
             @Param("name") String name,
