@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,12 +34,26 @@ public class ContractController {
         return "contract-form";
     }
 
+    @ModelAttribute
+    public SearchRequest setUpForm() {
+        return new SearchRequest();
+    }
+
     @PostMapping("/search")
-    public String searchContract(@ModelAttribute SearchRequest request, Model model) throws ParseException {
+    public String searchContract(@ModelAttribute @Validated SearchRequest request, BindingResult bindingResult,
+            Model model) throws ParseException {
+        if (bindingResult.hasErrors()) {
+            return "contract-form";
+        }
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date dateOfBirth = sdf.parse(request.getDateOfBirth());
-        ContractEntity contractResponse = contractService.getContractType(request.getName(), request.getNameKana(),
-                dateOfBirth, request.getCompany(), request.getContractNum()); // To contractserveci.java
+        ContractEntity contractResponse = contractService.getContractType(
+                request.getName(),
+                request.getNameKana(),
+                dateOfBirth,
+                request.getCompany(),
+                request.getContractNum());
 
         if (contractResponse != null) {
             model.addAttribute("contractType", contractResponse.getContractName());
@@ -46,6 +62,7 @@ public class ContractController {
             var errorMsg = AppUtil.getMessage(messageSource, ErrorMsgConst.NO_DATA);
             model.addAttribute("errorMsg", errorMsg);
         }
+
         return "contract-result";
     }
 
