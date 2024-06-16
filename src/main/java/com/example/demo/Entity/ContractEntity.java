@@ -4,105 +4,89 @@ import java.util.Date;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "contracts_list")
+@Table(name = "contacts_list")
 public class ContractEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
 
+    @Column(name = "name")
+    private String Name;
     @Column(name = "name_kana")
-    private String nameKana;
-
+    private String NameKana;
     @Column(name = "birthday")
-    private Date dateOfBirth;
-
-    private String company;
-
+    private Date Birthday;
+    @Column(name = "company")
+    private String Company;
     @Column(name = "contract_num")
-    private Integer contractNum;
-
+    private Integer ContractNum;
     @Column(name = "contract_name")
-    private String contractName;
-
+    private String ContractName;
     @Column(name = "contract_amount")
-    private String contractAmount;
-
-    // Constructors
-
-    public ContractEntity() {
-    }
-
-    public ContractEntity(String contractName, String contractAmount) {
-        this.contractName = contractName;
-        this.contractAmount = contractAmount;
-    }
-
-    // Getters
+    private Integer ContractAmount;
 
     public Long getId() {
         return id;
     }
 
     public String getName() {
-        return name;
+        return Name;
     }
 
     public String getNameKana() {
-        return nameKana;
+        return NameKana;
     }
 
-    public Date getDateOfBirth() {
-        return dateOfBirth;
+    public Date getBirthday() {
+        return Birthday;
     }
 
     public String getCompany() {
-        return company;
+        return Company;
     }
 
     public Integer getContractNum() {
-        return contractNum;
+        return ContractNum;
     }
 
     public String getContractName() {
-        return contractName;
+        return ContractName;
     }
 
-    public String getContractAmount() {
-        return contractAmount;
+    public Integer getContractAmount() {
+        return ContractAmount;
     }
-
-    // Setters
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String Name) {
+        this.Name = Name;
     }
 
-    public void setNameKana(String nameKana) {
-        this.nameKana = nameKana;
+    public void setNameKana(String NameKana) {
+        this.NameKana = NameKana;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
+    public void setBirthday(Date Birthday) {
+        this.Birthday = Birthday;
     }
 
-    public void setCompany(String company) {
-        this.company = company;
+    public void setCompany(String Company) {
+        this.Company = Company;
     }
 
-    public void setContractNum(Integer contractNum) {
-        this.contractNum = contractNum;
+    public void setContractNum(Integer ContractNum) {
+        this.ContractNum = ContractNum;
     }
 
-    public void setContractName(String contractName) {
-        this.contractName = contractName;
+    public void setContractName(String ContractName) {
+        this.ContractName = ContractName;
     }
 
-    public void setContractAmount(String contractAmount) {
-        this.contractAmount = contractAmount;
+    public void setContractAmount(Integer ContractAmount) {
+        this.ContractAmount = ContractAmount;
     }
+
 }

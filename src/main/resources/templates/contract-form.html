@@ -2,72 +2,128 @@
   <head>
     <meta charset="UTF-8" />
     <title>Search Contract</title>
+    <script type="text/javascript" th:src="@{/js/index.js}"></script>
   </head>
   <body>
     <form th:action="@{search}" th:object="${searchRequest}" method="post">
-      <label for="name">名前:</label>
-      <input type="text" id="name" name="name" th:field="*{name}" /><br />
-      <div
-        style="color: red"
-        th:if="${#fields.hasErrors('name')}"
-        th:errors="*{name}"
-      >
-        Name Error
+      <div>
+        <label for="name">名前:</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          th:field="*{requestIndividual.searchInfo.searchInfoDetail.name}"
+        /><br />
+        <div th:if="${nameErrors != null}">
+          <ul>
+            <li
+              th:each="error : ${nameErrors}"
+              style="color: red"
+              th:text="${error}"
+            >
+              Name Error
+            </li>
+          </ul>
+        </div>
       </div>
 
-      <label for="nameKana">名前(カナ):</label>
-      <input type="text" id="nameKana" name="nameKana" th:field="*{nameKana}" />
-      <br />
-      <div
-        style="color: red"
-        th:if="${#fields.hasErrors('nameKana')}"
-        th:errors="*{nameKana}"
-      >
-        NameKana Error
+      <div>
+        <label for="nameKana">名前(カナ):</label>
+        <input
+          type="text"
+          id="nameKana"
+          name="nameKana"
+          th:field="*{requestIndividual.searchInfo.searchInfoDetail.nameKana}"
+        /><br />
+        <div th:if="${nameKanaErrors != null}">
+          <ul>
+            <li
+              th:each="error : ${nameKanaErrors}"
+              style="color: red"
+              th:text="${error}"
+            >
+              NameKana Error
+            </li>
+          </ul>
+        </div>
       </div>
 
-      <label for="dob">誕生日:</label>
-      <input type="date" name="dateOfBirth" th:field="*{dateOfBirth}" /><br />
-      <div
-        style="color: red"
-        th:if="${#fields.hasErrors('dateOfBirth')}"
-        th:errors="*{dateOfBirth}"
-      >
-        DateOfBirth Error
+      <div>
+        <label for="dob">誕生日:</label>
+        <input
+          id="dob"
+          type="date"
+          name="Birthday"
+          th:field="*{requestIndividual.searchInfo.searchInfoDetail.birthday}"
+        /><br />
+        <div th:if="${birthdayErrors != null}">
+          <ul>
+            <li
+              th:each="error : ${birthdayErrors}"
+              style="color: red"
+              th:text="${error}"
+            >
+              Birthday Error
+            </li>
+          </ul>
+        </div>
       </div>
 
-      <label for="company">契約会社:</label>
-      <input
-        type="text"
-        id="company"
-        name="company"
-        th:field="*{company}"
-      /><br />
-      <div
-        style="color: red"
-        th:if="${#fields.hasErrors('company')}"
-        th:errors="*{company}"
-      >
-        Company Error
+      <div>
+        <label for="company">契約会社:</label>
+        <input
+          type="text"
+          id="company"
+          name="company"
+          th:field="*{requestIndividual.searchInfo.searchInfoDetail.company}"
+        /><br />
+        <div th:if="${companyErrors != null}">
+          <ul>
+            <li
+              th:each="error : ${companyErrors}"
+              style="color: red"
+              th:text="${error}"
+            >
+              Company Error
+            </li>
+          </ul>
+        </div>
       </div>
 
-      <label for="contractNum">契約契約番号:</label>
-      <input
-        type="number"
-        id="contractNum"
-        name="contractNum"
-        th:field="*{contractNum}"
-      /><br />
-
-      <div
-        style="color: red"
-        th:if="${#fields.hasErrors('contractNum')}"
-        th:errors="*{contractNum}"
-      >
-        contractNum Error
+      <div>
+        <label for="contractNum">契約契約番号:</label>
+        <input
+          type="number"
+          id="contractNum"
+          name="contractNum"
+          th:field="*{requestIndividual.searchInfo.searchInfoDetail.contractNum}"
+        />
+        <div th:if="${contractNumErrors != null}">
+          <ul>
+            <li
+              th:each="error : ${contractNumErrors}"
+              style="color: red"
+              th:text="${error}"
+            >
+              ContractNum Error
+            </li>
+          </ul>
+        </div>
       </div>
 
-      <button type="submit">Search</button>
+      <button th:onclick="findContract()" type="button">Search</button>
     </form>
+
+    <div id="result">
+      <p
+        style="color: red"
+        th:if="${noData != null}"
+        th:text="#{${noData}}"
+      ></p>
+      <ul th:each="contract : ${contracts}">
+        <li th:text="${contract.contractName}"></li>
+        <li th:text="${contract.contractAmount}"></li>
+      </ul>
+    </div>
   </body>
 </html>
