@@ -55,8 +55,8 @@ public class ContractControllerTest {
         @Autowired
         private ObjectMapper objectMapper;
 
-        @Test
-        public void testSearchContracts() throws Exception {
+        private SearchRequestDTO createSearchRequestDTO(String name, String nameKana, String birthday, String company,
+                        String contractNum) {
                 // ReqInfo
                 ReqInfo reqInfo = new ReqInfo();
                 reqInfo.setTime("2024-06-15T15:00:00");
@@ -68,11 +68,11 @@ public class ContractControllerTest {
 
                 // SearchInfoDetail
                 SearchInfoDetailDTO searchInfoDetail = new SearchInfoDetailDTO();
-                searchInfoDetail.setName("山田 太郎");
-                searchInfoDetail.setNameKana("ヤマダ タロウ");
-                searchInfoDetail.setBirthday("1980-01-01");
-                searchInfoDetail.setCompany("Company A");
-                searchInfoDetail.setContractNum(Collections.singletonList("123456"));
+                searchInfoDetail.setName(name);
+                searchInfoDetail.setNameKana(nameKana);
+                searchInfoDetail.setBirthday(birthday);
+                searchInfoDetail.setCompany(company);
+                searchInfoDetail.setContractNum(Collections.singletonList(contractNum));
 
                 // SearchInfo
                 SearchInfo searchInfo = new SearchInfo();
@@ -86,6 +86,14 @@ public class ContractControllerTest {
                 SearchRequestDTO searchRequestDTO = new SearchRequestDTO();
                 searchRequestDTO.setRequestCommon(requestCommon);
                 searchRequestDTO.setRequestIndividual(requestIndividual);
+
+                return searchRequestDTO;
+        }
+
+        @Test
+        public void testSearchContracts() throws Exception {
+                SearchRequestDTO searchRequestDTO = createSearchRequestDTO("山田　太郎", "ヤマダ　タロウ", "1980-01-01",
+                                "Company A", "123456");
 
                 // JSONにシリアライズ
                 String jsonRequest = objectMapper.writeValueAsString(searchRequestDTO);
@@ -123,35 +131,9 @@ public class ContractControllerTest {
 
         @Test
         public void testSearchContractsWithEmptyName() throws Exception {
-                // ReqInfo
-                ReqInfo reqInfo = new ReqInfo();
-                reqInfo.setTime("2024-06-15T15:00:00");
-                reqInfo.setTest("aaaaaaaaaaaaaaaaa");
 
-                // ReqCommon
-                RequestCommon requestCommon = new RequestCommon();
-                requestCommon.setReqInfo(reqInfo);
-
-                // SearchInfoDetail
-                SearchInfoDetailDTO searchInfoDetail = new SearchInfoDetailDTO();
-                searchInfoDetail.setName("");
-                searchInfoDetail.setNameKana("ヤマダ タロウ");
-                searchInfoDetail.setBirthday("1980-01-01");
-                searchInfoDetail.setCompany("Company A");
-                searchInfoDetail.setContractNum(Collections.singletonList("123456"));
-
-                // SearchInfo
-                SearchInfo searchInfo = new SearchInfo();
-                searchInfo.setSearchInfoDetail(searchInfoDetail);
-
-                // RequestIndividual
-                RequestIndividual requestIndividual = new RequestIndividual();
-                requestIndividual.setSearchInfo(searchInfo);
-
-                // SearchRequestDTO
-                SearchRequestDTO searchRequestDTO = new SearchRequestDTO();
-                searchRequestDTO.setRequestCommon(requestCommon);
-                searchRequestDTO.setRequestIndividual(requestIndividual);
+                SearchRequestDTO searchRequestDTO = createSearchRequestDTO("", "ヤマダ　タロウ", "1980-01-01",
+                                "Company A", "123456");
 
                 // JSONにシリアライズ
                 String jsonRequest = objectMapper.writeValueAsString(searchRequestDTO);
@@ -168,35 +150,9 @@ public class ContractControllerTest {
 
         @Test
         public void testSearchContractsWithInvalidNameKana() throws Exception {
-                // ReqInfo
-                ReqInfo reqInfo = new ReqInfo();
-                reqInfo.setTime("2024-06-15T15:00:00");
-                reqInfo.setTest("aaaaaaaaaaaaaaaaa");
 
-                // ReqCommon
-                RequestCommon requestCommon = new RequestCommon();
-                requestCommon.setReqInfo(reqInfo);
-
-                // SearchInfoDetail
-                SearchInfoDetailDTO searchInfoDetail = new SearchInfoDetailDTO();
-                searchInfoDetail.setName("山田　太郎");
-                searchInfoDetail.setNameKana("やまだ　たろう");
-                searchInfoDetail.setBirthday("1980-01-01");
-                searchInfoDetail.setCompany("Company A");
-                searchInfoDetail.setContractNum(Collections.singletonList("123456"));
-
-                // SearchInfo
-                SearchInfo searchInfo = new SearchInfo();
-                searchInfo.setSearchInfoDetail(searchInfoDetail);
-
-                // RequestIndividual
-                RequestIndividual requestIndividual = new RequestIndividual();
-                requestIndividual.setSearchInfo(searchInfo);
-
-                // SearchRequestDTO
-                SearchRequestDTO searchRequestDTO = new SearchRequestDTO();
-                searchRequestDTO.setRequestCommon(requestCommon);
-                searchRequestDTO.setRequestIndividual(requestIndividual);
+                SearchRequestDTO searchRequestDTO = createSearchRequestDTO("山田　太郎", "やまだ　たろう", "1980-01-01",
+                                "Company A", "123456");
 
                 // JSONにシリアライズ
                 String jsonRequest = objectMapper.writeValueAsString(searchRequestDTO);
@@ -214,35 +170,9 @@ public class ContractControllerTest {
 
         @Test
         public void testSearchContractsWithEmptyNameKana() throws Exception {
-                // ReqInfo
-                ReqInfo reqInfo = new ReqInfo();
-                reqInfo.setTime("2024-06-15T15:00:00");
-                reqInfo.setTest("aaaaaaaaaaaaaaaaa");
 
-                // ReqCommon
-                RequestCommon requestCommon = new RequestCommon();
-                requestCommon.setReqInfo(reqInfo);
-
-                // SearchInfoDetail
-                SearchInfoDetailDTO searchInfoDetail = new SearchInfoDetailDTO();
-                searchInfoDetail.setName("山田　太郎");
-                searchInfoDetail.setNameKana("");
-                searchInfoDetail.setBirthday("1980-01-01");
-                searchInfoDetail.setCompany("Company A");
-                searchInfoDetail.setContractNum(Collections.singletonList("123456"));
-
-                // SearchInfo
-                SearchInfo searchInfo = new SearchInfo();
-                searchInfo.setSearchInfoDetail(searchInfoDetail);
-
-                // RequestIndividual
-                RequestIndividual requestIndividual = new RequestIndividual();
-                requestIndividual.setSearchInfo(searchInfo);
-
-                // SearchRequestDTO
-                SearchRequestDTO searchRequestDTO = new SearchRequestDTO();
-                searchRequestDTO.setRequestCommon(requestCommon);
-                searchRequestDTO.setRequestIndividual(requestIndividual);
+                SearchRequestDTO searchRequestDTO = createSearchRequestDTO("山田　太郎", "", "1980-01-01",
+                                "Company A", "123456");
 
                 // JSONにシリアライズ
                 String jsonRequest = objectMapper.writeValueAsString(searchRequestDTO);
@@ -261,35 +191,9 @@ public class ContractControllerTest {
 
         @Test
         public void testSearchContractsWithInvalidBirthday() throws Exception {
-                // ReqInfo
-                ReqInfo reqInfo = new ReqInfo();
-                reqInfo.setTime("2024-06-15T15:00:00");
-                reqInfo.setTest("aaaaaaaaaaaaaaaaa");
 
-                // ReqCommon
-                RequestCommon requestCommon = new RequestCommon();
-                requestCommon.setReqInfo(reqInfo);
-
-                // SearchInfoDetail
-                SearchInfoDetailDTO searchInfoDetail = new SearchInfoDetailDTO();
-                searchInfoDetail.setName("山田 太郎");
-                searchInfoDetail.setNameKana("ヤマダ タロウ");
-                searchInfoDetail.setBirthday("invalid-date");
-                searchInfoDetail.setCompany("Company A");
-                searchInfoDetail.setContractNum(Collections.singletonList("123456"));
-
-                // SearchInfo
-                SearchInfo searchInfo = new SearchInfo();
-                searchInfo.setSearchInfoDetail(searchInfoDetail);
-
-                // RequestIndividual
-                RequestIndividual requestIndividual = new RequestIndividual();
-                requestIndividual.setSearchInfo(searchInfo);
-
-                // SearchRequestDTO
-                SearchRequestDTO searchRequestDTO = new SearchRequestDTO();
-                searchRequestDTO.setRequestCommon(requestCommon);
-                searchRequestDTO.setRequestIndividual(requestIndividual);
+                SearchRequestDTO searchRequestDTO = createSearchRequestDTO("山田　太郎", "ヤマダ タロウ", "invalid-date",
+                                "Company A", "123456");
 
                 // JSONにシリアライズ
                 String jsonRequest = objectMapper.writeValueAsString(searchRequestDTO);
@@ -307,35 +211,9 @@ public class ContractControllerTest {
 
         @Test
         public void testSearchContractsWithEmptyCompany() throws Exception {
-                // ReqInfo
-                ReqInfo reqInfo = new ReqInfo();
-                reqInfo.setTime("2024-06-15T15:00:00");
-                reqInfo.setTest("aaaaaaaaaaaaaaaaa");
 
-                // ReqCommon
-                RequestCommon requestCommon = new RequestCommon();
-                requestCommon.setReqInfo(reqInfo);
-
-                // SearchInfoDetail
-                SearchInfoDetailDTO searchInfoDetail = new SearchInfoDetailDTO();
-                searchInfoDetail.setName("山田 太郎");
-                searchInfoDetail.setNameKana("ヤマダ タロウ");
-                searchInfoDetail.setBirthday("1980-01-01");
-                searchInfoDetail.setCompany("");
-                searchInfoDetail.setContractNum(Collections.singletonList("123456"));
-
-                // SearchInfo
-                SearchInfo searchInfo = new SearchInfo();
-                searchInfo.setSearchInfoDetail(searchInfoDetail);
-
-                // RequestIndividual
-                RequestIndividual requestIndividual = new RequestIndividual();
-                requestIndividual.setSearchInfo(searchInfo);
-
-                // SearchRequestDTO
-                SearchRequestDTO searchRequestDTO = new SearchRequestDTO();
-                searchRequestDTO.setRequestCommon(requestCommon);
-                searchRequestDTO.setRequestIndividual(requestIndividual);
+                SearchRequestDTO searchRequestDTO = createSearchRequestDTO("山田　太郎", "ヤマダ タロウ", "1980-01-01",
+                                "", "123456");
 
                 // JSONにシリアライズ
                 String jsonRequest = objectMapper.writeValueAsString(searchRequestDTO);
@@ -353,35 +231,9 @@ public class ContractControllerTest {
 
         @Test
         public void testSearchContractsWithSingleDigitContractNum() throws Exception {
-                // ReqInfo
-                ReqInfo reqInfo = new ReqInfo();
-                reqInfo.setTime("2024-06-15T15:00:00");
-                reqInfo.setTest("aaaaaaaaaaaaaaaaa");
 
-                // ReqCommon
-                RequestCommon requestCommon = new RequestCommon();
-                requestCommon.setReqInfo(reqInfo);
-
-                // SearchInfoDetail
-                SearchInfoDetailDTO searchInfoDetail = new SearchInfoDetailDTO();
-                searchInfoDetail.setName("山田 太郎");
-                searchInfoDetail.setNameKana("ヤマダ タロウ");
-                searchInfoDetail.setBirthday("1980-01-01");
-                searchInfoDetail.setCompany("Company A");
-                searchInfoDetail.setContractNum(Collections.singletonList("1"));
-
-                // SearchInfo
-                SearchInfo searchInfo = new SearchInfo();
-                searchInfo.setSearchInfoDetail(searchInfoDetail);
-
-                // RequestIndividual
-                RequestIndividual requestIndividual = new RequestIndividual();
-                requestIndividual.setSearchInfo(searchInfo);
-
-                // SearchRequestDTO
-                SearchRequestDTO searchRequestDTO = new SearchRequestDTO();
-                searchRequestDTO.setRequestCommon(requestCommon);
-                searchRequestDTO.setRequestIndividual(requestIndividual);
+                SearchRequestDTO searchRequestDTO = createSearchRequestDTO("山田　太郎", "ヤマダ タロウ", "1980-01-01",
+                                "Company A", "1");
 
                 // JSONにシリアライズ
                 String jsonRequest = objectMapper.writeValueAsString(searchRequestDTO);
@@ -400,35 +252,8 @@ public class ContractControllerTest {
 
         @Test
         public void testSearchContractsWithOverTenDigitContractNum() throws Exception {
-                // ReqInfo
-                ReqInfo reqInfo = new ReqInfo();
-                reqInfo.setTime("2024-06-15T15:00:00");
-                reqInfo.setTest("aaaaaaaaaaaaaaaaa");
-
-                // ReqCommon
-                RequestCommon requestCommon = new RequestCommon();
-                requestCommon.setReqInfo(reqInfo);
-
-                // SearchInfoDetail
-                SearchInfoDetailDTO searchInfoDetail = new SearchInfoDetailDTO();
-                searchInfoDetail.setName("山田 太郎");
-                searchInfoDetail.setNameKana("ヤマダ タロウ");
-                searchInfoDetail.setBirthday("1980-01-01");
-                searchInfoDetail.setCompany("Company A");
-                searchInfoDetail.setContractNum(Collections.singletonList("01234567890"));
-
-                // SearchInfo
-                SearchInfo searchInfo = new SearchInfo();
-                searchInfo.setSearchInfoDetail(searchInfoDetail);
-
-                // RequestIndividual
-                RequestIndividual requestIndividual = new RequestIndividual();
-                requestIndividual.setSearchInfo(searchInfo);
-
-                // SearchRequestDTO
-                SearchRequestDTO searchRequestDTO = new SearchRequestDTO();
-                searchRequestDTO.setRequestCommon(requestCommon);
-                searchRequestDTO.setRequestIndividual(requestIndividual);
+                SearchRequestDTO searchRequestDTO = createSearchRequestDTO("山田　太郎", "ヤマダ タロウ", "1980-01-01",
+                                "Company A", "01234567890");
 
                 // JSONにシリアライズ
                 String jsonRequest = objectMapper.writeValueAsString(searchRequestDTO);
@@ -447,35 +272,8 @@ public class ContractControllerTest {
 
         @Test
         public void testSearchContractsWithEmptyContractNum() throws Exception {
-                // ReqInfo
-                ReqInfo reqInfo = new ReqInfo();
-                reqInfo.setTime("2024-06-15T15:00:00");
-                reqInfo.setTest("aaaaaaaaaaaaaaaaa");
-
-                // ReqCommon
-                RequestCommon requestCommon = new RequestCommon();
-                requestCommon.setReqInfo(reqInfo);
-
-                // SearchInfoDetail
-                SearchInfoDetailDTO searchInfoDetail = new SearchInfoDetailDTO();
-                searchInfoDetail.setName("山田 太郎");
-                searchInfoDetail.setNameKana("ヤマダ タロウ");
-                searchInfoDetail.setBirthday("1980-01-01");
-                searchInfoDetail.setCompany("Company A");
-                searchInfoDetail.setContractNum(Collections.singletonList(""));
-
-                // SearchInfo
-                SearchInfo searchInfo = new SearchInfo();
-                searchInfo.setSearchInfoDetail(searchInfoDetail);
-
-                // RequestIndividual
-                RequestIndividual requestIndividual = new RequestIndividual();
-                requestIndividual.setSearchInfo(searchInfo);
-
-                // SearchRequestDTO
-                SearchRequestDTO searchRequestDTO = new SearchRequestDTO();
-                searchRequestDTO.setRequestCommon(requestCommon);
-                searchRequestDTO.setRequestIndividual(requestIndividual);
+                SearchRequestDTO searchRequestDTO = createSearchRequestDTO("山田　太郎", "ヤマダ タロウ", "1980-01-01",
+                                "Company A", "");
 
                 // JSONにシリアライズ
                 String jsonRequest = objectMapper.writeValueAsString(searchRequestDTO);
@@ -494,35 +292,8 @@ public class ContractControllerTest {
 
         @Test
         public void testSearchContractsNoData() throws Exception {
-                // ReqInfo
-                ReqInfo reqInfo = new ReqInfo();
-                reqInfo.setTime("2024-06-15T15:00:00");
-                reqInfo.setTest("aaaaaaaaaaaaaaaaa");
-
-                // ReqCommon
-                RequestCommon requestCommon = new RequestCommon();
-                requestCommon.setReqInfo(reqInfo);
-
-                // SearchInfoDetail
-                SearchInfoDetailDTO searchInfoDetail = new SearchInfoDetailDTO();
-                searchInfoDetail.setName("山田 太郎");
-                searchInfoDetail.setNameKana("ヤマダ タロウ");
-                searchInfoDetail.setBirthday("1980-01-01");
-                searchInfoDetail.setCompany("Company A");
-                searchInfoDetail.setContractNum(Collections.singletonList("123"));
-
-                // SearchInfo
-                SearchInfo searchInfo = new SearchInfo();
-                searchInfo.setSearchInfoDetail(searchInfoDetail);
-
-                // RequestIndividual
-                RequestIndividual requestIndividual = new RequestIndividual();
-                requestIndividual.setSearchInfo(searchInfo);
-
-                // SearchRequestDTO
-                SearchRequestDTO searchRequestDTO = new SearchRequestDTO();
-                searchRequestDTO.setRequestCommon(requestCommon);
-                searchRequestDTO.setRequestIndividual(requestIndividual);
+                SearchRequestDTO searchRequestDTO = createSearchRequestDTO("山田　太郎", "ヤマダ タロウ", "1980-01-01",
+                                "Company A", "123");
 
                 // JSONにシリアライズ
                 String jsonRequest = objectMapper.writeValueAsString(searchRequestDTO);
